@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo</title>
+    <link type="text/css" rel="stylesheet" href="../static/css/index.css">
+</head>
+<body>
+<p>
+    {{ user['name'] }}
+</p>
+<p>
+    {% if user['id'] == 1 %}
+        {{ user.name }}
+    {% else %}
+        {{ '找不到用户' }}
+    {% endif %}
+</p>
+
+
+</body>
+</html>

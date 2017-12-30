@@ -1,0 +1,5 @@
+DATABASE_TYPE = 'postgresql'
+URL = '@localhost:5432'
+USER = 'postgres'
+PASSWORD = '123456'
+DATABASE_NAME = 'test'
