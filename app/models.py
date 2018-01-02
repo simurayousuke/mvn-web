@@ -1,70 +1,65 @@
-# coding: utf-8
-from sqlalchemy import BigInteger, Boolean, Column, Date, ForeignKey, Index, Integer, Table, Text, text
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from flask_sqlalchemy import SQLAlchemy
+
+from .app import app
+
+db = SQLAlchemy(app)
 
 
-Base = declarative_base()
-metadata = Base.metadata
-
-
-class M2Dependency(Base):
+class Dependency(db.Model):
     __tablename__ = 'm2_dependency'
+    __table_args__ = (
+        db.Index('m2_dependency_group_id_artifact_id_version_index', 'group_id', 'artifact_id', 'version'),
+    )
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('m2_dependency_id_seq'::regclass)"))
-    index_id = Column(Integer, nullable=False)
-    dependency_index_id = Column(ForeignKey('m2_index.id'))
-    optional = Column(Boolean, nullable=False, index=True, server_default=text("false"))
-    scope = Column(Text, nullable=False, server_default=text("'compile'::text"))
-    group_id = Column(Text)
-    artifact_id = Column(Text)
-    version = Column(Text)
+    id = db.Column(db.Integer, primary_key=True, server_default=db.FetchedValue())
+    index_id = db.Column(db.Integer, nullable=False, index=True)
+    dependency_index_id = db.Column(db.ForeignKey('m2_index.id'), index=True)
+    optional = db.Column(db.Boolean, nullable=False, index=True, server_default=db.FetchedValue())
+    scope = db.Column(db.Text, nullable=False, server_default=db.FetchedValue())
+    group_id = db.Column(db.Text)
+    artifact_id = db.Column(db.Text)
+    version = db.Column(db.Text)
 
-    dependency_index = relationship('M2Index')
+    dependency_index = db.relationship('Index', primaryjoin='Dependency.dependency_index_id == Index.id',
+                                       backref='m2_dependencies')
 
 
-class M2Index(Base):
+class Index(db.Model):
     __tablename__ = 'm2_index'
     __table_args__ = (
-        Index('m2_index_group_id_artifact_id_index', 'group_id', 'artifact_id'),
+        db.Index('m2_index_group_id_artifact_id_index', 'group_id', 'artifact_id'),
     )
 
-    id = Column(BigInteger, unique=True, server_default=text("nextval('m2_index_id_seq_new'::regclass)"))
-    group_id = Column(Text, primary_key=True, nullable=False, index=True)
-    artifact_id = Column(Text, primary_key=True, nullable=False)
-    version = Column(Text, primary_key=True, nullable=False)
+    id = db.Column(db.Integer, unique=True, server_default=db.FetchedValue())
+    group_id = db.Column(db.Text, primary_key=True, nullable=False, index=True)
+    artifact_id = db.Column(db.Text, primary_key=True, nullable=False)
+    version = db.Column(db.Text, primary_key=True, nullable=False)
 
 
-t_m2_index2 = Table(
-    'm2_index2', metadata,
-    Column('no', BigInteger),
-    Column('id', BigInteger)
-)
-
-
-class M2IndexBak(Base):
-    __tablename__ = 'm2_index_bak'
+class License(db.Model):
+    __tablename__ = 'm2_license'
     __table_args__ = (
-        Index('m2_index_artifact_id_group_id_version_uindex', 'artifact_id', 'group_id', 'version', unique=True),
+        db.Index('m2_license_index_id_license_uindex', 'index_id', 'license'),
     )
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('m2_index_id_seq'::regclass)"))
-    group_id = Column(Text, nullable=False)
-    artifact_id = Column(Text, nullable=False)
-    version = Column(Text, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, server_default=db.FetchedValue())
+    index_id = db.Column(db.ForeignKey('m2_index.id'), nullable=False, index=True)
+    license = db.Column(db.Text, nullable=False, index=True)
+
+    index = db.relationship('Index', primaryjoin='License.index_id == Index.id', backref='m2_licenses')
 
 
-class M2Package(Base):
+class Package(db.Model):
     __tablename__ = 'm2_package'
 
-    id = Column(Integer, primary_key=True, server_default=text("nextval('m2_package_id_seq'::regclass)"))
-    index_id = Column(ForeignKey('m2_index.id'), nullable=False, unique=True)
-    name = Column(Text)
-    description = Column(Text)
-    home_page = Column(Text)
-    license = Column(Text)
-    organization = Column(Text)
-    date = Column(Date)
-    success = Column(Boolean, nullable=False, server_default=text("false"))
+    id = db.Column(db.Integer, primary_key=True, server_default=db.FetchedValue())
+    index_id = db.Column(db.ForeignKey('m2_index.id'), nullable=False, unique=True)
+    name = db.Column(db.Text, index=True)
+    description = db.Column(db.Text)
+    home_page = db.Column(db.Text, index=True)
+    organization = db.Column(db.Text, index=True)
+    date = db.Column(db.Date, index=True)
 
-    index = relationship('M2Index')
+    index = db.relationship('Index', primaryjoin='Package.index_id == Index.id', backref='m2_packages')
