@@ -3,9 +3,12 @@
     <link type="text/css" rel="stylesheet" href="../static/css/index.css">
 {% endblock %}
 {% block body %}
-    {% for x in data %}
-        {{ x.version }}
-    {% endfor %}
+    <div class="body">
+        <div class="container">
+            asdfasdfasdfasdf
+        </div>
+    </div>
+
 {% endblock %}
 {# if结构例子 #}
 {#    {% if data['id'] != 1 %}#}
@@ -20,10 +23,4 @@
 {#    {% endfor %}#}
 {% block script %}
     <script type="text/javascript" src="../static/js/index.js"></script>
-    <script>
-        layui.use(['layer'], function () {
-            var layer = layui.layer;
-            layer.msg('试试');
-        });
-    </script>
 {% endblock %}
