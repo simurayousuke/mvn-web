@@ -14,7 +14,7 @@
 .logo {
     position: absolute;
     left: 0;
-    top: 16px;
+    top: -4px;
 }
 
 .header {
@@ -40,8 +40,7 @@
 
 .img-logo {
     width: 100px;
-    position: relative;
-    bottom: 20px;
+
 }
 
 footer {

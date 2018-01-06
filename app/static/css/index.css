@@ -1,3 +1,14 @@
 .container {
     min-height: calc(100vh - 116px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container .title {
+    text-align: center;
+    position: relative;
+    bottom: 40px;
+    color: #1191FF;
+    font-size: 22px;
 }

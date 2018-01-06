@@ -5,7 +5,21 @@
 {% block body %}
     <div class="body">
         <div class="container">
-            asdfasdfasdfasdf
+            <div class="layui-carousel" id="carousel">
+                <div carousel-item>
+                    <div>
+                        <div style="height: 50px"></div>
+                        <div id="num-per-year"></div>
+                        <div class="title">项目发布数量图</div>
+                    </div>
+                    <div>
+                        <div style="height: 50px"></div>
+                        <div id="protocol"></div>
+                        <div class="title">开源协议占比图</div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -22,5 +36,9 @@
 {#        {{ user.name }}#}
 {#    {% endfor %}#}
 {% block script %}
+    <script>/*Fixing iframe window.innerHeight 0 issue in Safari*/
+    document.body.clientHeight;</script>
+    <script src="https://gw.alipayobjects.com/os/antv/assets/g2/3.0.4-beta.2/g2.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/assets/data-set/0.8.3/data-set.min.js"></script>
     <script type="text/javascript" src="../static/js/index.js"></script>
 {% endblock %}
