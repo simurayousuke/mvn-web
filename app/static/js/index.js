@@ -3,13 +3,31 @@ layui.use(['layer', 'carousel'], function () {
     var carousel = layui.carousel;
     layer.msg('试试');
 
-    carousel.render({
+    const options = {
         elem: '#carousel'
         , width: '1060px'
         , arrow: 'hover'
         , height: '600px'
         , interval: 5000
-    });
+    };
+
+    if (document.body.clientHeight <= 768) {
+        options.height = '450px';
+    }
+    var ins = carousel.render(options);
+    window.onresize = function () {
+        if (document.body.clientHeight <= 768) {
+            options.height = '450px';
+            ins.reload(options);
+            NumPerYear.changeHeight(300);
+            Protocol.changeHeight(300);
+        } else {
+            options.height = '600px';
+            ins.reload(options);
+            NumPerYear.changeHeight(500);
+            Protocol.changeHeight(500);
+        }
+    };
 
 });
 
@@ -25,11 +43,16 @@ const NumPerYearData = [
     {year: '1999', value: 13}
 ];
 
-const NumPerYear = new G2.Chart({
+const NumPerYearOptions = {
     container: 'num-per-year',
     width: 1000,
     height: 500
-});
+};
+if (document.body.clientHeight <= 768) {
+    NumPerYearOptions.height = 300;
+}
+
+const NumPerYear = new G2.Chart(NumPerYearOptions);
 
 NumPerYear.source(NumPerYearData);
 NumPerYear.scale('value', {
@@ -65,11 +88,16 @@ const ProtocolData = [
     {year: '2012', population: 30.3}
 ];
 
-const Protocol = new G2.Chart({
+const ProtocolOptions = {
     container: 'protocol',
     width: 1000,
     height: 500
-});
+};
+if (document.body.clientHeight <= 768) {
+    ProtocolOptions.height = 300;
+}
+
+const Protocol = new G2.Chart(ProtocolOptions);
 Protocol.source(data);
 Protocol.coord('polar', {
     innerRadius: 0.2
@@ -87,4 +115,6 @@ Protocol.interval().position('license*num')
         stroke: '#fff'
     });
 Protocol.render();
+
+
 
