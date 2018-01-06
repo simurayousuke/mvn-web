@@ -38,8 +38,7 @@
 <script src="//gw.alipayobjects.com/os/antv/assets/data-set/0.8.3/data-set.min.js"></script>
 {% autoescape false %}
 <script>
-    data =;
-    {{ data }}
+    data = eval('{{ data }}')
 </script>
 {% endautoescape %}
 <script type="text/javascript" src="/static/js/index.js"></script>
