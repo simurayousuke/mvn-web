@@ -70,7 +70,7 @@ const Protocol = new G2.Chart({
     width: 1000,
     height: 500
 });
-Protocol.source(ProtocolData);
+Protocol.source(data);
 Protocol.coord('polar', {
     innerRadius: 0.2
 });
@@ -80,10 +80,11 @@ Protocol.legend({
     offsetX: -200
 });
 Protocol.axis(false);
-Protocol.interval().position('year*population')
-    .color('year', G2.Global.colors_pie_16)
+Protocol.interval().position('license*num')
+    .color('license', G2.Global.colors_pie_16)
     .style({
         lineWidth: 1,
         stroke: '#fff'
     });
 Protocol.render();
+

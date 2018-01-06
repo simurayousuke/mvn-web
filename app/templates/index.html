@@ -1,9 +1,8 @@
 {% extends "common.html" %}
 {% block style %}
-    <link type="text/css" rel="stylesheet" href="../static/css/index.css">
+    <link type="text/css" rel="stylesheet" href="/static/css/index.css">
 {% endblock %}
 {% block body %}
-    <div class="body">
         <div class="container">
             <div class="layui-carousel" id="carousel">
                 <div carousel-item>
@@ -19,10 +18,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-    </div>
-
 {% endblock %}
 {# if结构例子 #}
 {#    {% if data['id'] != 1 %}#}
@@ -38,7 +34,13 @@
 {% block script %}
     <script>/*Fixing iframe window.innerHeight 0 issue in Safari*/
     document.body.clientHeight;</script>
-    <script src="https://gw.alipayobjects.com/os/antv/assets/g2/3.0.4-beta.2/g2.min.js"></script>
-    <script src="https://gw.alipayobjects.com/os/antv/assets/data-set/0.8.3/data-set.min.js"></script>
-    <script type="text/javascript" src="../static/js/index.js"></script>
+<script src="//gw.alipayobjects.com/os/antv/assets/g2/3.0.4-beta.2/g2.min.js"></script>
+<script src="//gw.alipayobjects.com/os/antv/assets/data-set/0.8.3/data-set.min.js"></script>
+{% autoescape false %}
+<script>
+    data =;
+    {{ data }}
+</script>
+{% endautoescape %}
+<script type="text/javascript" src="/static/js/index.js"></script>
 {% endblock %}
