@@ -1,0 +1,109 @@
+{% extends "common.html" %}
+{% block style %}
+    <link type="text/css" rel="stylesheet" href="/static/css/artifact.css">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <span class="layui-breadcrumb title-bread" lay-separator=">>">
+            <a href="">HOME</a>
+            <a href="">GroupId</a>
+            <a href="">ArtifactId</a>
+            <a href="">Version</a>
+        </span>
+
+        <div class="item">
+            <a href="">
+                <img src="//cdn.zhuangcloud.cn/logo-2.svg" class="item-logo">
+            </a>
+            <div class="item-header">
+                <h2 class="item-title">
+                    <a href="">Item-Name</a>
+                    >>
+                    <a href="">Version</a>
+                </h2>
+            </div>
+            <p class="item-description">
+                Item-Description
+            </p>
+        </div>
+
+        <table class="layui-table">
+            <colgroup>
+                <col width="200">
+                <col>
+            </colgroup>
+            <tbody>
+            <tr>
+                <td><b>License</b></td>
+                <td><span class="license">EPL 1.0</span></td>
+            </tr>
+            <tr>
+                <td><b>HomePage</b></td>
+                <td><a href="http://enbug.cn">enbug.cn</a></td>
+            </tr>
+            <tr>
+                <td><b>Date</b></td>
+                <td>(Jan 06, 2018)</td>
+            </tr>
+            <tr>
+                <td><b>Used By</b></td>
+                <td><a href=""><b>7 &nbsp;artifacts</b></a></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>Dependencies</h2>
+
+        <table class="layui-table">
+            <colgroup>
+                <col width="200">
+                <col width="500">
+                <col>
+            </colgroup>
+            <thead>
+            <tr>
+                <th>License</th>
+                <th>Group/Artifact</th>
+                <th>Version</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><span class="license">EPL 1.0</span></td>
+                <td>
+                    <a href="">
+                        <img src="//cdn.zhuangcloud.cn/logo-2.svg" class="item-logo-table">
+                    </a>
+                    <span class="group-artifact">
+                        <a href="">GroupId</a>
+                    >>
+                    <a href="">ArtifactId</a>
+                    </span>
+
+                </td>
+                <td><a class="vbtn release" href="">0.9.3</a></td>
+            </tr>
+            <tr>
+                <td><span class="license">EPL 1.0</span></td>
+                <td>
+                    <a href="">
+                        <img src="//cdn.zhuangcloud.cn/logo-2.svg" class="item-logo-table">
+                    </a>
+                    <span class="group-artifact">
+                        <a href="">GroupId</a>
+                    >>
+                    <a href="">ArtifactId</a>
+                    </span>
+
+                </td>
+                <td><a class="vbtn release" href="">0.9.3</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="/static/js/artifact.js"></script>
+{% endblock %}
