@@ -98,18 +98,54 @@ if (document.body.clientHeight <= 768) {
 }
 
 const Protocol = new G2.Chart(ProtocolOptions);
-Protocol.source(data);
-Protocol.coord('polar', {
-    innerRadius: 0.2
+const DataView = DataSet.DataView;
+const dv = new DataView();
+dv.source(data).transform({
+    type: 'percent',
+    field: 'num',
+    dimension: 'license',
+    as: 'percent'
 });
-Protocol.legend({
-    position: 'right',
-    offsetY: -40,
-    offsetX: -200
+
+Protocol.source(dv, {
+    percent: {
+        formatter: function (num) {
+            num = (num * 100) + '%';
+            return num;
+        }
+    }
 });
-Protocol.axis(false);
-Protocol.interval().position('license*num')
-    .color('license', G2.Global.colors_pie_16)
+Protocol.coord('theta', {
+    radius: 0.75
+});
+// Protocol.legend({
+//     position: 'right',
+//     offsetY: -40,
+//     offsetX: -200
+// });
+
+Protocol.tooltip({
+    showTitle: false,
+    itemTpl: '<li><span style="background-color:{color};" class="g2-tooltip-marker"></span>{name}: {value}</li>'
+});
+
+// Protocol.axis(false);
+Protocol.intervalStack()
+    .position('percent')
+    .color('license')
+    .label('percent', {
+        formatter: function (num, license) {
+            var percent = parseFloat(num).toFixed(2) + '%';
+            return license.point.license + ': ' + percent;
+        }
+    })
+    .tooltip('license*percent', function (license, percent) {
+        percent = (percent * 100).toFixed(2) + '%';
+        return {
+            name: license,
+            value: percent
+        };
+    })
     .style({
         lineWidth: 1,
         stroke: '#fff'
