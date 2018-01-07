@@ -49,3 +49,12 @@ footer {
     padding: 20px 0;
     background-color: gainsboro;
 }
+
+.layui-breadcrumb a:hover {
+    color: #1191ff !important;
+}
+
+.title-bread {
+    position: relative;
+    top: 7px;
+}

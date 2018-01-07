@@ -9,14 +9,6 @@
     font-size: 18px;
 }
 
-.layui-breadcrumb a:hover {
-    color: #1191ff !important;
-}
-
-.title-bread {
-    position: relative;
-    top: 7px;
-}
 
 .item {
     margin-top: 1.5em;
