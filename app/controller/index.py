@@ -11,28 +11,40 @@ from ..models import db, License, Package
 @app.route('/', methods=['GET'])
 def index():
     session = db.session
-    exists_license = session.query(License.index_id.label('index_id'), License.license.label('license'))
-    no_license = session.query(Package.index_id, db.literal('None')) \
-        .except_(session.query(License.index_id, db.literal('None')))
-    all_license = exists_license.union(no_license).subquery()
-    all_rows = session \
-        .query(all_license.c.license, db.func.count(all_license.c.index_id).label('num')) \
-        .group_by(all_license.c.license) \
+    exists_license = session \
+        .query(License.license.label('license'), db.func.count(License.index_id).label('num')) \
+        .group_by(License.license) \
         .subquery()
-    data = session.query(
-        all_rows.c.num,
+    a = session.query(
         db.case(
             [
-                (all_rows.c.num >= 30000, all_rows.c.license)
+                (exists_license.c.num >= 30000, exists_license.c.license)
             ],
-            else_='Other'
-        ).label('license')
+            else_='Others'
+        ).label('license'),
+        exists_license.c.num
     ).subquery()
-    data = session.query(data.c.license, db.func.sum(data.c.num)).group_by(data.c.license)
+    has_license = session.query(a.c.license, db.func.sum(a.c.num).label('num')).group_by(a.c.license)
+    no_license = session.query(Package.index_id.label('index_id')) \
+        .except_(session.query(License.index_id)) \
+        .subquery()
+    no_license_count = session.query(db.literal('None'), db.func.count(no_license.c.index_id))
+    result = has_license.union(no_license_count).order_by(db.desc('num'))
     license_info = []
-    for l in data.all():
+    for l in result.all():
         license_info.append({
             'license': l[0],
             'num': int(l[1])
         })
-    return render_template('index.html', data=json.dumps(license_info))
+    st = session \
+        .query(db.func.to_char(Package.date, 'YYYY').label('time'), db.func.count(Package.id).label('num')) \
+        .filter(Package.date >= '2005-01-01') \
+        .group_by('time') \
+        .order_by(db.asc('time'))
+    statistics_info = []
+    for s in st.all():
+        statistics_info.append({
+            'time': s[0],
+            'num': s[1]
+        })
+    return render_template('index.html', license=json.dumps(license_info), statistics=json.dumps(statistics_info))
