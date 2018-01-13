@@ -16,7 +16,8 @@ def search(key):
         .join(Dependency, Dependency.dependency_index_id == Index.id)\
         .filter(Index.artifact_id.like('%'+ key + '%'))\
         .group_by(Index.id, Index.group_id, Index.artifact_id, Package.name, Package.description, License.license)\
-        .order_by(db.desc('num'))
+        .order_by(db.desc('num'))\
+        .limit(20)
     rs = rs.all()
     for r in rs:
         results.append(r)

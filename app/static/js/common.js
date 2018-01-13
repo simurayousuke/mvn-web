@@ -1,12 +1,11 @@
-layui.use('element', function () {
-    var element = layui.element;
+// layui.use(['element', 'jquery'], function(){
+//     var $ = layui.jquery,element = layui.element();
+// 	$('#search-').click(function () { alert('sss') })
+// });
 
-
-    window.onload = function () {
-        searchButton = document.getElementById('search-');
-        searchButton.onkeydown = function () {
-            alert('ss')
-        }
-    }
-
-});
+var button = document.getElementById('search-');
+button.onkeydown = function (e) {
+ if(e.keyCode === 13) {
+    location.assign('/search/' + button.value);
+ }
+};
