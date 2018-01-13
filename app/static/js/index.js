@@ -1,7 +1,6 @@
 layui.use(['layer', 'carousel'], function () {
     var layer = layui.layer;
     var carousel = layui.carousel;
-    layer.msg('试试');
 
     const options = {
         elem: '#carousel'
