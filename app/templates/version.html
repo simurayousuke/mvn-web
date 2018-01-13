@@ -6,9 +6,9 @@
 {% block body %}
     <div class="container">
         <span class="layui-breadcrumb title-bread" lay-separator=">>">
-            <a href="">HOME</a>
+            <a href="/">HOME</a>
             <a href="">{{ group }}</a>
-            <a href="">{{ artifact }}</a>
+            <a href="/{{ group }}/{{ artifact }}">{{ artifact }}</a>
             <a href="">{{ version }}</a>
         </span>
 
@@ -46,10 +46,6 @@
                 <td><b>Date</b></td>
                 <td>{{ results[0][5] }}</td>
             </tr>
-            <tr>
-                <td><b>Used By</b></td>
-                <td><a href=""><b>7 &nbsp;artifacts</b></a></td>
-            </tr>
             </tbody>
         </table>
 
@@ -79,11 +75,11 @@
                     <span class="group-artifact">
                         <a href="">{{ de[7] }}</a>
                     >>
-                    <a href="">{{ de[8] }}</a>
+                    <a href="/{{ de[7] }}/{{ de[8] }}">{{ de[8] }}</a>
                     </span>
 
                 </td>
-                <td><a class="vbtn release" href="">{{ de[9] }}</a></td>
+                <td><a class="vbtn release" href="/{{ de[7] }}/{{ de[8] }}/{{ de[9] }}">{{ de[9] }}</a></td>
             </tr>
             {% endfor %}
             </tbody>

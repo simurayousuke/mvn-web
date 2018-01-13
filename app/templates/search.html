@@ -2,21 +2,33 @@
 {% block style %}
     <link type="text/css" rel="stylesheet" href="/static/css/search.css">
 {% endblock %}
-
 {% block body %}
     <div class="container">
-        <span class="layui-breadcrumb title-bread" lay-separator=">>">
-            <a href="">HOME</a>
-            <a href="">GroupId</a>
-            <a href="">ArtifactId</a>
-            <a href="">Version</a>
-        </span>
-        <h1>Message</h1>
-        {% include "item.html" %}
-        {% include "item.html" %}
-        {% include "item.html" %}
-        {% include "item.html" %}
-        {% include "item.html" %}
+        <h1>可能结果：</h1>
+        {% for result in results %}
+                <div class="item">
+            <a href="/{{ result[1] }}/{{ result[2] }}">
+                <img src="//cdn.zhuangcloud.cn/logo-2.svg" class="item-logo">
+            </a>
+            <div class="item-header">
+                <h2 class="item-title">
+                    <a href="/{{ result[1] }}/{{ result[2] }}">{{ result[3] }}</a>
+                    <a class="item-usage" href=""><b>{{ result[6] }}</b>&nbsp;usages</a>
+                </h2>
+                <p class="item-subtitle">
+                    <span class="layui-breadcrumb sub-bread" lay-separator=">>">
+                        <a href="/{{ result[1] }}/{{ result[2] }}" class="sub-bread">HOME</a>
+                        <a href="/{{ result[1] }}/{{ result[2] }}">{{ result[1] }}</a>
+                        <a href="/{{ result[1] }}/{{ result[2] }}">{{ result[2] }}</a>
+                    </span>
+                    <span class="license">{{ result[5] }}</span>
+                </p>
+            </div>
+            <div class="item-description">
+                {{ result[4] }}
+            </div>
+        </div>
+        {% endfor %}
     </div>
 {% endblock %}
 
