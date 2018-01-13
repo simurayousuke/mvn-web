@@ -18,13 +18,14 @@ def artifact(group_id, artifact_id):
         .filter(Index.group_id == group_id, Index.artifact_id == artifact_id)\
         .group_by(Package.index_id, Package.name, Package.description, License.license, Index.version, Package.date)\
         .order_by(Package.date.desc())
+    rs = rs.all()
     if rs:
-        for r in rs.all():
+        for r in rs:
             results.append(r)
             use_num = use_num + r[5]
         return render_template('artifact.html', results=results, artifact=artifact_id, group=group_id, num=use_num)
     else:
-        return 
+        return render_template('error.html')
 
 
 @app.route('/[artifact]/[version]', methods=['GET'])
