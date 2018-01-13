@@ -4,6 +4,7 @@ from flask import render_template
 
 from ..app import app
 from ..models import db, License, Package, Index, Dependency
+from sqlalchemy.orm import aliased
 
 
 @app.route('/<string:group_id>/<string:artifact_id>/', methods=['GET'])
@@ -28,6 +29,23 @@ def artifact(group_id, artifact_id):
         return render_template('error.html')
 
 
-@app.route('/[artifact]/[version]', methods=['GET'])
-def version():
-    return render_template('version.html')
+@app.route('/<string:group_id>/<string:artifact_id>/<string:version>', methods=['GET'])
+def version(group_id, artifact_id, version):
+    results = []
+    session = db.session
+    aliased_license = aliased(License)
+    aliased_index = aliased(Index)
+    rs = session.query(Index.id, License.license, Package.name, Package.description, Package.home_page, Package.date, aliased_license.license, aliased_index.group_id, aliased_index.artifact_id, aliased_index.version)\
+        .join(License, License.index_id == Index.id)\
+        .join(Package, Package.index_id == Index.id)\
+        .join(Dependency, Dependency.index_id == Index.id)\
+        .join(aliased_license, Dependency.dependency_index_id == aliased_license.index_id)\
+        .join(aliased_index, Dependency.dependency_index_id == aliased_index.id)\
+        .filter(Index.group_id == group_id, Index.artifact_id == artifact_id, Index.version == version)
+    rs = rs.all()
+    if rs:
+        for r in rs:
+            results.append(r)
+        return render_template('version.html', results=results, artifact=artifact_id, group=group_id, version=version)
+    else:
+        return render_template('error.html')

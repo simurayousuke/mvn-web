@@ -57,10 +57,10 @@
             <tbody>
             {% for version in results %}
                 <tr>
-                <td><a class="vbtn release" href="">{{ version[4] }}</a></td>
-                <td><a href="">{{ version[5] }}</a></td>
+                <td><a class="vbtn release" href="/{{ group }}/{{ artifact }}/{{ version[4] }}">{{ version[4] }}</a></td>
+                <td><a href="/{{ group }}/{{ artifact }}/{{ version[4] }}">{{ version[5] }}</a></td>
                 <td>{{ version[6] }}</td>
-            </tr>
+                </tr>
             {% endfor %}
             </tbody>
         </table>
